@@ -29,17 +29,14 @@ section:
 ```gradle
    repositories {
        mavenCentral()
+       maven { url 'https://jitpack.io' }
    }
 ```
 
 Then, include the library as dependency:
 
 ```gradle
-implementation 'se.warting.signature:signature-pad:<latest_version>' // jetpack Compose views
-```
-or
-```gradle
-implementation 'se.warting.signature:signature-view:<latest_version>' // legacy android views
+implementation 'implementation 'com.github.MRossello11:android-signaturepad:<latest_version>'
 ```
 
 ## Usage

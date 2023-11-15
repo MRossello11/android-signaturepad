@@ -96,4 +96,9 @@ class SignaturePadAdapter(private val signaturePad: SignaturePad) {
     fun setSignature(signature: Signature) {
         return signaturePad.setSignature(signature)
     }
+
+    @ExperimentalSignatureApi
+    fun setSignatureBitmap(signature: Bitmap) {
+        return signaturePad.setSignatureBitmap(signature)
+    }
 }

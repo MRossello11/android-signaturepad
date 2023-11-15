@@ -5,7 +5,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -26,6 +28,7 @@ import se.warting.signatureview.utils.Bezier
 import se.warting.signatureview.utils.ControlTimedPoints
 import se.warting.signatureview.utils.SvgBuilder
 import se.warting.signatureview.utils.TimedPoint
+import se.warting.signatureview.view.ViewCompat
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -412,6 +415,33 @@ class SignaturePad(context: Context, attrs: AttributeSet?) : View(context, attrs
             xMax - xMin,
             yMax - yMin
         )
+    }
+
+    fun setSignatureBitmap(signature: Bitmap) {
+        if (ViewCompat.isLaidOut(this)) {
+            clear()
+            ensureSignatureBitmapInOnDraw()
+
+            val tempSrc = RectF()
+            val tempDst = RectF()
+
+            val dWidth: Int = signature.width
+            val dHeight: Int = signature.height
+            val vWidth = width
+            val vHeight = height
+
+            // Generate the required transform.
+            tempSrc[0f, 0f, dWidth.toFloat()] = dHeight.toFloat()
+            tempDst[0f, 0f, vWidth.toFloat()] = vHeight.toFloat()
+
+            val drawMatrix = Matrix()
+            drawMatrix.setRectToRect(tempSrc, tempDst, Matrix.ScaleToFit.CENTER)
+
+            val canvas = Canvas(mSignatureTransparentBitmap!!)
+            canvas.drawBitmap(signature, drawMatrix, null)
+
+            invalidate()
+        }
     }
 
     private fun getNewTimedPoint(x: Float, y: Float, timestamp: Long): TimedPoint {

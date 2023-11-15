@@ -78,3 +78,6 @@ Button(onClick = {
 * `getTransparentSignatureBitmap()` - A signature bitmap with a transparent background.
 * `getSignatureSvg()` - A signature Scalable Vector Graphics document.
 
+4. Set signature data
+* `setSignatureBitmap(Bitmap)` - Paints the passed Bitmap as the signature
+* `setSignature(Signature)` - Paints the passed Signature as the signature
